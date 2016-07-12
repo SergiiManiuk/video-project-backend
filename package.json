@@ -1,5 +1,5 @@
 {
-  "name": "my-todolist-project",
+  "name": "video-project-backend",
   "version": "0.0.1",
   "description": "video service rest api",
   "main": "index.js",
