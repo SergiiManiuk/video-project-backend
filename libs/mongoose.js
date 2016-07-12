@@ -1,7 +1,7 @@
 'use strict';
 
 const mongoose = require('mongoose');
-mongoose.Promise = global.Promise;
+mongoose.Promise = global.Promise; //mpromise is deprecated вот такая вот хуйня из-за этого
 
 const config = require('config');
 
