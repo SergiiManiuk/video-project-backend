@@ -1,28 +1,25 @@
 'use strict';
 
 const Router = require('koa-router');
+const mongoose = require('../libs/mongoose');
+
+const Project = require('../models/project');
 
 let router = module.exports = new Router({
   prefix: '/projects'
 })
 
-let tasksList = [
-  {id: 1, title: 'Задача Один'},
-  {id: 2, title: 'Задача Два'},
-  {id: 3, title: 'Задача Три'},
-  {id: 4, title: 'Задача Четыре'},
-  {id: 5, title: 'Задача Пять'},
-  {id: 6, title: 'Задача Шесть'},
-  {id: 7, title: 'Задача Семь'},
-];
 
 router
   .param('projectById', function*(id, next) {
-    this.taskById = tasksList.filter((task) => {
-      return task.id == id;
-    })[0];
 
-    if (!this.taskById) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      this.throw(404);
+    }
+
+    this.projectById = yield Project.findById(id);
+
+    if (!this.projectById) {
       this.throw(404);
     }
 
@@ -30,25 +27,24 @@ router
   })
 
   .post('/', function*(next) {
-    let newTask = {
-      id: tasksList[tasksList.length - 1].id + 1,
+    let project = yield Project.create({
       title: this.request.body.title
-    };
-    tasksList.push(newTask);
-    this.body = newTask;
+    });
+
+    this.body = project.toObject();
   })
 
   .get('/:projectById', function*(next) {
-    this.body = this.taskById;
+    this.body = this.projectById.toObject();
   })
 
   .del('/:projectById', function*(next) {
-    let indexTask = tasksList.indexOf(this.taskById);
-    tasksList.splice(indexTask, 1);
-    this.body = `Removed project with ID: ${indexTask}`;
+    yield this.projectById.remove({});
+    this.body = 'ok';
   })
 
   .get('/', function*(next) {
-    this.body = tasksList;
+    let projects = yield Project.find({}).lean();
+    this.body = projects;
   });
 

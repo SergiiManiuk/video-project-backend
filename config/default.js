@@ -3,5 +3,16 @@
 module.exports = {
   port: 8080,
   root: process.cwd(),
-  secret: 'it is my secret key'
+  mongoose: {
+    uri:'mongodb://localhost/video-project',
+    options: {
+      server: {
+        socketOptions: {
+          keepAlive: 1
+        },
+        poolSize: 5
+      }
+    }
+  },
+  secret: 'snaypssnp'
 };

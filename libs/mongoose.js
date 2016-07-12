@@ -1,14 +1,14 @@
-var mongoose = require('mongoose');
+'use strict';
 
-mongoose.set('debug', true);
+const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 
-mongoose.connect('mongodb://localhost/video', {
-  server: {
-    socketOptions: {
-      keepAlive: 1
-    },
-    poolSize: 5
-  }
-});
+const config = require('config');
+
+if (process.env.MONGOOSE_DEBUG) {
+  mongoose.set('debug', true);
+}
+
+mongoose.connect(config.mongoose.uri, config.mongoose.options);
 
 module.exports = mongoose;
