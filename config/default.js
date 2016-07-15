@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  port: 8080,
+  port: 8000,
   root: process.cwd(),
   mongoose: {
     uri:'mongodb://localhost/video-project',

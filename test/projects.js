@@ -73,7 +73,7 @@ describe("Project REST API", () => {
   });
 
   it("GET /projects gets all projects", function*() {
-    let response = yield request.get(getURL('/projects'));
+    let response = yield request.get(getURL());
     response.statusCode.should.eql(200);
     response.headers['content-type'].should.match(/application\/json/);
     JSON.parse(response.body).length.should.eql(1);

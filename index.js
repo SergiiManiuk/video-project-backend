@@ -1,10 +1,11 @@
 'use strict';
 
-const koa = require('koa');
 const path = require('path');
 const fs = require('fs');
 const config = require('config');
-const app = koa();
+
+const Application = require('./libs/application');
+const app = new Application();
 
 app.keys = [config.secret];
 
@@ -19,4 +20,7 @@ app.use(require('./routes/projects').routes());
 
 app.listen(config.port);
 
-console.log(`http://localhost:${config.port}`);
+app.log.info(`http://localhost:${config.port}`)
+
+
+
